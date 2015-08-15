@@ -26,10 +26,18 @@ int main()
 {
 	//Load extern
 
+	//Font
 	font.loadFromFile("data/font.ttf");
-	//clickBuffer.loadFromFile("data/click.ogg");
-	//hoverBuffer.loadFromFile("data/hover.ogg");
 
+	//Click sound
+	clickBuffer.loadFromFile("data/click.ogg");
+	clickSound.setBuffer(clickBuffer);
+
+	//Hover sound
+	hoverBuffer.loadFromFile("data/mouseover.ogg");
+	hoverSound.setBuffer(hoverBuffer);
+
+	//Init the game and run
 	engine.initGame();
 	engine.runGame();
 

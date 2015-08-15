@@ -6,12 +6,15 @@ StateManager::StateManager()
 
 void StateManager::initStateManager(sf::RenderWindow &window, sf::Event &event)
 {
+	//Initiate variables
 	this->window = &window;
 	this->event = &event;
 }
 
-void StateManager::changeState(std::shared_ptr<State> state)
+void StateManager::changeState(std::unique_ptr<State> state)
 {
+	//If the vector isn't empty destroy the current states
+	//Clear the vector
 	if (states.empty() == false)
 	{
 		for (auto i = 0; i < states.size(); i++)
@@ -21,25 +24,29 @@ void StateManager::changeState(std::shared_ptr<State> state)
 		states.clear();
 	}
 
-	states.push_back(state);
+	//Move the new state inside the vector
+	states.push_back(std::move(state));
 
+	//Initiate the state
 	if (states.empty() == false)
 	{
 		states[MAINSTATE]->init(*window);
 	}
 }
 
-void StateManager::pushState(std::shared_ptr<State> state)
+void StateManager::pushState(std::unique_ptr<State> state)
 {
-	if (!isInside(state))
+	//Push state
+	if (!isInside(std::move(state)))
 	{
-		states.push_back(state);
+		states.push_back(std::move(state));
 		//states[states.size() - 1]->init(*window);
 	}
 }
 
 void StateManager::popState()
 {
+	//Pop state
 	if (states.size() > 1)
 	{
 		states[states.size() - 1]->destroy(*window);
@@ -49,6 +56,7 @@ void StateManager::popState()
 
 void StateManager::update(float dt)
 {
+	//Update the states
 	if (states.empty() == false)
 	{
 		for (auto i = 0; i < states.size(); i++)
@@ -58,6 +66,7 @@ void StateManager::update(float dt)
 
 void StateManager::draw()
 {
+	//Draw the states
 	if (states.empty() == false)
 	{
 		for (auto i = 0; i < states.size(); i++)
@@ -67,6 +76,7 @@ void StateManager::draw()
 
 void StateManager::handleEvents()
 {
+	//Handle the states' events
 	if (states.empty() == false)
 	{
 		if (states.size() > 1)
@@ -76,9 +86,9 @@ void StateManager::handleEvents()
 	}
 }
 
-bool StateManager::isInside(std::shared_ptr<State> state)
+bool StateManager::isInside(std::unique_ptr<State> state)
 {
-	//Check if the state is already in the vector
+	//Check if the state is already inside the vector
 	for (auto i = 0; i < states.size(); i++)
 	{
 		if (states[i].get() == state.get())

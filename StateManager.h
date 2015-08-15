@@ -14,8 +14,8 @@ public:
 	void initStateManager(sf::RenderWindow &window, sf::Event &event); //functie separata pentru event
 
 	//Transit between states
-	void changeState(std::shared_ptr<State> state);
-	void pushState(std::shared_ptr<State> state);
+	void changeState(std::unique_ptr<State> state);
+	void pushState(std::unique_ptr<State> state);
 	void popState();
 
 	//Actions within game loop
@@ -23,13 +23,16 @@ public:
 	void draw();
 	void handleEvents();
 private:
-	bool isInside(std::shared_ptr<State> state);
+	//Check if the state is already inside the vector
+	bool isInside(std::unique_ptr<State> state);
 
-	std::vector<std::shared_ptr<State>> states;
-	sf::RenderWindow					*window;
-	sf::Event							*event;
+	//State vector
+	std::vector<std::unique_ptr<State>> states;
+	sf::RenderWindow *window; //Window
+	sf::Event		 *event;  //Event
 };
 
-extern StateManager  state_manager;
+//Global manager
+extern StateManager state_manager;
 
 #endif

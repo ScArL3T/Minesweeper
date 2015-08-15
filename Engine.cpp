@@ -4,12 +4,12 @@
 void Engine::initGame()
 {
 	//Initiate the window and set the framerate
-	window.create({ 800, 500 }, "Game");
+	window.create({ 800, 500 }, "Minesweeper");
 	window.setFramerateLimit(FPS);
 
 	//Initiate the state manager
 	state_manager.initStateManager(window, event);
-	state_manager.changeState(std::shared_ptr<State>(std::make_shared<MenuState>()));
+	state_manager.changeState(std::unique_ptr<State>(std::make_unique<MenuState>()));
 }
 
 void Engine::runGame()

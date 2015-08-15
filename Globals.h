@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include "Gui.h"
+#include "Button.h"
 #include <iostream>
 #include <memory>
 #include <functional>

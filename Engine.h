@@ -8,7 +8,7 @@
 class Engine
 {
 public:
-	//Init and run the game
+	//Initiate and run the game
 	void initGame();
 	void runGame();
 
