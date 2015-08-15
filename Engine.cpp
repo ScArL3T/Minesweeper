@@ -4,7 +4,7 @@
 void Engine::initGame()
 {
 	//Initiate the window and set the framerate
-	window.create({ 800, 500 }, "Minesweeper");
+	window.create({ 500, 300 }, "Minesweeper");
 	window.setFramerateLimit(FPS);
 
 	//Initiate the state manager
