@@ -3,11 +3,23 @@
 
 void Engine::initGame()
 {
-	//Initiate the window and set the framerate
-	window.create({ 500, 300 }, "Minesweeper");
-	window.setFramerateLimit(FPS);
+	//Initiate splashscreen
+	splash.Create(255, 1.5f);
 
-	//Initiate the state manager
+	//Initiate window and set the framerate
+	window.create({ 500, 300 }, "Minesweeper", sf::Style::Titlebar | sf::Style::Close);
+	window.setFramerateLimit(FPS);
+	
+	//Load and set icon
+	m_icon.loadFromFile("data/icon.png");
+	window.setIcon(m_icon.getSize().x, m_icon.getSize().y, m_icon.getPixelsPtr());
+
+	//Change cursor
+	window.setMouseCursorVisible(false);
+	m_cursorTexture.loadFromFile("data/cursor.png");
+	m_cursorSprite.setTexture(m_cursorTexture);
+
+	//Initiate state manager
 	state_manager.initStateManager(window, event);
 	state_manager.changeState(std::unique_ptr<State>(std::make_unique<MenuState>()));
 }
@@ -45,12 +57,18 @@ void Engine::gameLoop()
 		//Delta time
 		float dt = clock.restart().asSeconds();
 
+		//Cursor position
+		m_cursorSprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
+
 		//Clear the window
 		window.clear();
 
 		//Update and draw current state
 		state_manager.update(dt);
 		state_manager.draw();
+
+		//Draw cursor
+		window.draw(m_cursorSprite);
 
 		//Display the window
 		window.display();

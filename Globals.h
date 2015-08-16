@@ -9,7 +9,7 @@
 #include <memory>
 #include <functional>
 
-#define FPS 60
+const unsigned int FPS = 60;
 
 extern sf::Font  font;
 extern sf::Sound clickSound;

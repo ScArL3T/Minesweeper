@@ -13,6 +13,7 @@ public:
 	void destroy(sf::RenderWindow &window) override;
 
 private:
+	//Static functions for buttons
 	static void onHover();
 	static void onClick();
 
@@ -20,14 +21,15 @@ private:
 	float WIDTH, HEIGHT;
 	bool  playState;
 
-	sf::Text		   m_title;
-	sf::RectangleShape m_backgr;
+	sf::Text		   m_title;  //Menu title
+	sf::RectangleShape m_backgr; //Menu background
 
+	sf::Texture m_panelTexture;  //Menu panel texture
+	sf::Sprite  m_panelSprite;   //Menu panel sprite
+
+	//Custom GUI
 	gui::Gui		  gui;
 	gui::Button::Ptr  playButton, quitButton; 
-
-	sf::Texture m_panelTexture;
-	sf::Sprite  m_panelSprite;
 };
 
 #endif

@@ -3,7 +3,7 @@
 
 SplashScreen::SplashScreen()
 {
-	/*Load image, cream fereastra si setam pozitia sa.*/
+	//Load image and set temporary window
 	img.loadFromFile("data/splash.png");
 	window.create(sf::VideoMode(img.getSize().x, img.getSize().y), "", sf::Style::None);
 	window.setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width - img.getSize().x) / 2,
@@ -17,7 +17,7 @@ SplashScreen::~SplashScreen()
 
 void SplashScreen::Create(unsigned char opacity, float time)
 {
-	/*Functia care se ocupa de splashscreen.*/
+	//SplashScreen
 	if (!setTransparent(window.getSystemHandle(), img, opacity))
 	{
 		//error
@@ -45,7 +45,7 @@ bool SplashScreen::setTransparent(HWND hWnd, const sf::Image& image, unsigned ch
 	const sf::Uint8* pixelData = image.getPixelsPtr();
 	HRGN hRegion = CreateRectRgn(0, 0, image.getSize().x, image.getSize().y);
 
-	// Determine the visible region
+	//Determine the visible region
 	for (unsigned int y = 0; y < image.getSize().y; y++)
 	{
 		for (unsigned int x = 0; x < image.getSize().x; x++)
@@ -65,7 +65,7 @@ bool SplashScreen::setTransparent(HWND hWnd, const sf::Image& image, unsigned ch
 	SetWindowRgn(hWnd, hRegion, true);
 	DeleteObject(hRegion);
 
-	// Set the transparency
+	//Set the transparency
 	SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 	SetLayeredWindowAttributes(hWnd, 0, alpha, LWA_ALPHA);
 	return true;
