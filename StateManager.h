@@ -3,8 +3,6 @@
 
 #include "State.h"
 
-#define MAINSTATE 0
-
 class StateManager
 {
 public:
@@ -30,6 +28,9 @@ private:
 	std::vector<std::unique_ptr<State>> states;
 	sf::RenderWindow *window; //Window
 	sf::Event		 *event;  //Event
+
+	//Main state
+	const unsigned int MAINSTATE = 0;
 };
 
 //Global manager
