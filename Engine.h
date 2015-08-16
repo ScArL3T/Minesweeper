@@ -2,7 +2,6 @@
 #define ENGINE_H
 
 #include "StateManager.h"
-#include "SplashScreen.h"
 #include <time.h>
 #include <string>
 
@@ -23,18 +22,8 @@ private:
 	//Screenshot function
 	void takeScreenshot();
 
-	sf::RenderWindow window; //Window
-	sf::Event	     event;  //Event
-
-	//Icon
-	sf::Image m_icon;
-
-	//Cursor
-	sf::Texture m_cursorTexture;
-	sf::Sprite  m_cursorSprite;
-
-	//SplashScreen
-	SplashScreen splash;
+	sf::RenderWindow window;
+	sf::Event	     event;
 };
 
 #endif

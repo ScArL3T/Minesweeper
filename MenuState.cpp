@@ -38,6 +38,7 @@ void MenuState::init(sf::RenderWindow &window)
 	quitButton->loadTextures(path + "2normal.png", path + "2hover.png", path + "2click.png");
 	quitButton->setPosition({ WIDTH / 2 - quitButton->getSize().x / 2, HEIGHT / 2 + quitButton->getSize().y / 4 * 3 });
 	quitButton->setOnHover(MenuState::onHover);
+	//quitButton->setOnClick(MenuState::onClick);
 
 	//Add widgets to the gui
 	gui.addWidget(playButton);
@@ -51,7 +52,6 @@ void MenuState::update(sf::RenderWindow &window, float dt)
 	//Update gui
 	gui.update(window);
 
-	//Quit button' state
 	switch (quitButton->getState())
 	{
 	case gui::Button::LeftMousePressed:
@@ -61,7 +61,6 @@ void MenuState::update(sf::RenderWindow &window, float dt)
 		break;
 	}
 
-	//Play button' state
 	switch (playButton->getState())
 	{
 	case gui::Button::LeftMousePressed:
