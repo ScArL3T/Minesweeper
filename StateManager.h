@@ -9,7 +9,7 @@ public:
 	StateManager();
 
 	//Initiate the state manager
-	void initStateManager(sf::RenderWindow &window, sf::Event &event); //functie separata pentru event
+	void initStateManager(sf::RenderWindow &window, sf::Event &event);
 
 	//Transit between states
 	void changeState(std::unique_ptr<State> state);

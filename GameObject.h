@@ -1,28 +1,20 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include "States.h"
-#include "ResourceManager.h"
+#include "State.h"
 
-class GameObject : public ResourceManager, public sf::Sprite
+class GameObject : public sf::Shape
 {
 public:
-	virtual void Draw(sf::RenderWindow &window)
-	{
-	}
-	virtual void Update(sf::RenderWindow &window)
-	{
-	}
-	virtual void Collision(GameObject go)
-	{
-	}
+	virtual void update(sf::RenderWindow &window, float dt) = 0;
+	virtual void collision(GameObject &go) = 0;
 
-	bool CheckCollision(GameObject go)
+	bool checkCollision(GameObject &go)
 	{
 		return this->getGlobalBounds().intersects(go.getGlobalBounds());
 	}
 
-	std::vector<GameObject> GameObjects; //Stocam fiecare gameObject (poate sa fie modificat in vector de pointers)
+	std::vector<GameObject> GameObjects; //TODO
 };
 
 #endif

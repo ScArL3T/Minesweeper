@@ -11,6 +11,7 @@ sf::Sound		 clickSound, hoverSound;
 
 sf::Font font;
 
+//state manager: current state = last pushed state
 //fix console. initiate it only ONCE -> TOP, use enum maybe
 //highscore system
 //AI
