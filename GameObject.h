@@ -3,18 +3,14 @@
 
 #include "State.h"
 
-class GameObject : public sf::Shape
+class GameObject : public sf::Drawable, public sf::Transformable
 {
 public:
 	virtual void update(sf::RenderWindow &window, float dt) = 0;
-	virtual void collision(GameObject &go) = 0;
+	virtual void handleEvents(sf::RenderWindow &window, sf::Event &event) = 0;
 
-	bool checkCollision(GameObject &go)
-	{
-		return this->getGlobalBounds().intersects(go.getGlobalBounds());
-	}
-
-	std::vector<GameObject> GameObjects; //TODO
+protected:
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
 };
 
 #endif

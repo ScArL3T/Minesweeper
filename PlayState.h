@@ -2,6 +2,7 @@
 #define PLAYSTATE_H
 
 #include "StateManager.h"
+#include "Cell.h"
 
 class PlayState: public State
 {
@@ -11,6 +12,9 @@ public:
 	void draw(sf::RenderWindow &window) override;
 	void handleEvents(sf::RenderWindow &window, sf::Event &event) override;
 	void destroy(sf::RenderWindow &window) override;
+
+private:
+	Cell c;
 };
 
 #endif

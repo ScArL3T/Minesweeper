@@ -16,17 +16,7 @@ namespace gui
 		virtual void setFont(sf::Font &font) = 0;
 		virtual void update(sf::RenderWindow &window) = 0;
 	protected:
-		sf::RectangleShape m_shape; // Shape of the widget
-		//sf::Text		   m_text; //Widget text
-		//Virtual function for draw - sf::Drawable
-		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
-		{
-			/*
-			states.transform *= getTransform();
-			target.draw(m_shape, states);
-			target.draw(m_text, states);
-			*/
-		}
+		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0; 
 	};
 }
 
