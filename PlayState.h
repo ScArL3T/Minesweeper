@@ -2,7 +2,7 @@
 #define PLAYSTATE_H
 
 #include "StateManager.h"
-#include "Cell.h"
+#include "Grid.h"
 
 class PlayState: public State
 {
@@ -15,6 +15,7 @@ public:
 
 private:
 	Cell c;
+	Grid grid;
 };
 
 #endif

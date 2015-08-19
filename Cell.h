@@ -10,22 +10,25 @@ public:
 	Cell();
 	~Cell();
 
-	bool isRevealed();
-
 	void setSize(sf::Vector2f size);
 	void setTexture(sf::Texture &texture);
-	void setState(sf::Uint32 state);
+	void setBomb(bool bomb);
+
+	bool isBomb();
 
 	sf::Uint32 getState();
 	
 	enum
 	{
 		None = 0,
-		Mine = 1
+		Revealed,
+		Flagged
 	};
-private:
 	void update(sf::RenderWindow &window, float dt);
 	void handleEvents(sf::RenderWindow &window, sf::Event &event);
+private:
+	
+	
 	//void collision(GameObject &go);
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
@@ -35,9 +38,11 @@ private:
 	sf::VertexArray m_quad;
 	sf::Uint32 m_state;
 
+	bool m_bomb;
 	//MISC
-	bool revealed;
 	bool hovered, left_clicked, right_clicked;
+	bool flagged;
+	sf::Texture te;
 };
 
 #endif
