@@ -10,7 +10,9 @@ Cell::Cell()
 	m_quad.setPrimitiveType(sf::Quads);
 	m_quad.resize(4);
 
-	m_size.x = m_size.y = 64.f;
+	m_state = Normal;
+
+	m_size.x = m_size.y = 0;
 	m_quad[0].position = sf::Vector2f(0, 0);
 	m_quad[1].position = sf::Vector2f(m_size.x, 0);
 	m_quad[2].position = sf::Vector2f(m_size.x, m_size.y);
@@ -23,8 +25,8 @@ Cell::Cell()
 	hovered = false;
 	left_clicked = right_clicked = false;
 
-	te.loadFromFile("data/tileset_gray.png", sf::IntRect(128, 0, 64, 64));
 	flagged = false;
+	revealed = false;
 }
 
 
@@ -45,11 +47,6 @@ void Cell::setTexture(sf::Texture &texture)
 {
 	m_texture = texture;
 
-	m_quad[0].position = sf::Vector2f(getPosition().x, getPosition().y);
-	m_quad[1].position = sf::Vector2f(getPosition().x + m_texture.getSize().x, getPosition().y);
-	m_quad[2].position = sf::Vector2f(getPosition().x + m_texture.getSize().x, getPosition().y + m_texture.getSize().y);
-	m_quad[3].position = sf::Vector2f(getPosition().x, getPosition().y + m_texture.getSize().y);
-
 	m_quad[0].texCoords = sf::Vector2f(0, 0);
 	m_quad[1].texCoords = sf::Vector2f(m_texture.getSize().x, 0);
 	m_quad[2].texCoords = sf::Vector2f(m_texture.getSize().x, m_texture.getSize().y);
@@ -66,6 +63,11 @@ bool Cell::isBomb()
 	return m_bomb;
 }
 
+bool Cell::isFlagged()
+{
+	return flagged;
+}
+
 sf::Uint32 Cell::getState()
 {
 	return m_state;
@@ -73,14 +75,7 @@ sf::Uint32 Cell::getState()
 
 void Cell::update(sf::RenderWindow &window, float dt)
 {
-	if (flagged)
-	{
-		
-		//flagged = false;
-		setTexture(te);
-		//m_state = None;
-		std::cout << "flagged" << std::endl;
-	}
+
 }
 
 void Cell::handleEvents(sf::RenderWindow &window, sf::Event &event)
@@ -130,21 +125,15 @@ void Cell::handleEvents(sf::RenderWindow &window, sf::Event &event)
 				{
 					//Make the cell flagged/unflagged
 					if (m_state != Flagged)
-					{
 						m_state = Flagged;
-						flagged = true;
-					}
-					else
-					{
-						m_state = None;
-						flagged = false;
-					}
+					else m_state = Normal;
 				}
 			}
 		}
 		else
 		{
-			m_state = None;
+			hovered = false;
+			//m_state = Normal;
 		}
 	}
 }

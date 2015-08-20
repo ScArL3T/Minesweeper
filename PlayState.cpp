@@ -10,7 +10,7 @@ void PlayState::init(sf::RenderWindow &window)
 	c.setTexture(t);
 	//c.setSize({ 200, 200 });
 
-	grid.setGridSize(10);
+	grid.setGridSize(9);
 }
 
 void PlayState::update(sf::RenderWindow &window, float dt)

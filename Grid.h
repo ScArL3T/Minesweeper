@@ -2,6 +2,7 @@
 #define GRID_H
 
 #include "Cell.h"
+#include <random>
 
 class Grid
 {
@@ -21,15 +22,19 @@ private:
 	//Recalculate position
 	void autoPosition();
 
+	//Generate bombs
+	void generateBombs();
+
 	//Cells matrix
 	std::vector<std::vector<Cell>> grid;
 
 	//Matrix size
 	unsigned int m_size;
 
-	sf::Texture t;
-
-	sf::Texture te;
+	sf::Texture m_textureFlag;
+	sf::Texture m_textureNormal;
+	sf::Texture m_textureClicked;
+	sf::Texture m_textureBomb;
 };
 
 #endif
