@@ -7,7 +7,7 @@ void PlayState::init(sf::RenderWindow &window)
 	c.setPosition({ 40, 0 });
 	sf::Texture t;
 	t.loadFromFile("data/cursor.png");
-	c.setTexture(t);
+//	c.setTexture(t);
 	//c.setSize({ 200, 200 });
 
 	grid.setGridSize(9);

@@ -6,7 +6,7 @@ void Engine::initGame()
 	//Initiate splashscreen
 	splash.Create(255, 1.5f);
 
-	//Initiate window and set the framerate
+	//Initiate window and set the framerate 
 	window.create({ 288, 288 }, "Minesweeper", sf::Style::Titlebar | sf::Style::Close);
 	window.setFramerateLimit(FPS);
 	

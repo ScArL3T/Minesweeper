@@ -58,14 +58,14 @@ void Cell::setBomb(bool bomb)
 	m_bomb = bomb;
 }
 
+void Cell::setState(sf::Uint32 state)
+{
+	m_state = state;
+}
+
 bool Cell::isBomb()
 {
 	return m_bomb;
-}
-
-bool Cell::isFlagged()
-{
-	return flagged;
 }
 
 sf::Uint32 Cell::getState()
