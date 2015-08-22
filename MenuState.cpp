@@ -1,6 +1,12 @@
 #include "MenuState.h"
 #include "PlayState.h"
 
+MenuState::~MenuState()
+{
+	//Remove widgets
+	gui.removeAll();
+}
+
 void MenuState::init(sf::RenderWindow &window)
 {
 	gui.setGlobalFont(font);
@@ -65,7 +71,7 @@ void MenuState::update(sf::RenderWindow &window, float dt)
 	switch (playButton->getState())
 	{
 	case gui::Button::LeftMousePressed:
-		state_manager.changeState(std::unique_ptr<State>(std::make_unique<PlayState>()));
+		state_manager.changeState(window, std::make_unique<PlayState>());
 		break;
 	default:
 		break;
@@ -85,12 +91,6 @@ void MenuState::handleEvents(sf::RenderWindow &window, sf::Event &event)
 {
 	//Handle events
 	gui.handleEvents(window, event);
-}
-
-void MenuState::destroy(sf::RenderWindow &window)
-{
-	//Remove widgets
-	gui.removeAll();
 }
 
 void MenuState::onHover()

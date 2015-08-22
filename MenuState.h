@@ -6,12 +6,11 @@
 class MenuState : public State
 {
 public:
+	~MenuState();
 	void init(sf::RenderWindow &window) override;
 	void update(sf::RenderWindow &window, float dt) override;
 	void draw(sf::RenderWindow &window) override;
 	void handleEvents(sf::RenderWindow &window, sf::Event &event) override;
-	void destroy(sf::RenderWindow &window) override;
-
 private:
 	//Static functions for buttons
 	static void onHover();

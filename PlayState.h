@@ -7,12 +7,11 @@
 class PlayState: public State
 {
 public:
+	~PlayState();
 	void init(sf::RenderWindow &window) override;
 	void update(sf::RenderWindow &window, float dt) override;
 	void draw(sf::RenderWindow &window) override;
 	void handleEvents(sf::RenderWindow &window, sf::Event &event) override;
-	void destroy(sf::RenderWindow &window) override;
-
 private:
 	Cell c;
 	Grid grid;

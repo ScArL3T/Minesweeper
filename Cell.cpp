@@ -48,9 +48,9 @@ void Cell::setTexture(sf::Texture &texture)
 	m_texture = texture;
 
 	m_quad[0].texCoords = sf::Vector2f(0, 0);
-	m_quad[1].texCoords = sf::Vector2f(m_texture.getSize().x, 0);
-	m_quad[2].texCoords = sf::Vector2f(m_texture.getSize().x, m_texture.getSize().y);
-	m_quad[3].texCoords = sf::Vector2f(0, m_texture.getSize().y);
+	m_quad[1].texCoords = sf::Vector2f(static_cast<float>(m_texture.getSize().x), 0);
+	m_quad[2].texCoords = sf::Vector2f(static_cast<float>(m_texture.getSize().x), static_cast<float>(m_texture.getSize().y));
+	m_quad[3].texCoords = sf::Vector2f(0, static_cast<float>(m_texture.getSize().y));
 }
 
 void Cell::setBomb(bool bomb)

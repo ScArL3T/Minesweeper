@@ -20,8 +20,7 @@ void Engine::initGame()
 	m_cursorSprite.setTexture(m_cursorTexture);
 
 	//Initiate state manager
-	state_manager.initStateManager(window, event);
-	state_manager.changeState(std::unique_ptr<State>(std::make_unique<MenuState>()));
+	state_manager.changeState(window, std::make_unique<MenuState>());
 }
 
 void Engine::runGame()
@@ -39,7 +38,7 @@ void Engine::handleEvents()
 			window.close();
 
 		//Handle state manager's events
-		state_manager.handleEvents();
+		state_manager.handleEvents(window, event);
 
 		//Screenshot
 		takeScreenshot();
@@ -64,8 +63,8 @@ void Engine::gameLoop()
 		window.clear();
 
 		//Update and draw current state
-		state_manager.update(dt);
-		state_manager.draw();
+		state_manager.update(window, dt);
+		state_manager.draw(window);
 
 		//Draw cursor
 		window.draw(m_cursorSprite);

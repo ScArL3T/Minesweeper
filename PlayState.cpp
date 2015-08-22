@@ -1,6 +1,11 @@
 #include "PlayState.h"
 #include "MenuState.h"
 
+PlayState::~PlayState()
+{
+
+}
+
 void PlayState::init(sf::RenderWindow &window)
 {
 	std::cout << "playstate init";
@@ -29,10 +34,5 @@ void PlayState::handleEvents(sf::RenderWindow &window, sf::Event &event)
 	//c.handleEvents(window, event);
 	grid.handleEvents(window, event);
 	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-		state_manager.changeState(std::unique_ptr<State>(std::make_unique<MenuState>()));
-}
-
-void PlayState::destroy(sf::RenderWindow &window)
-{
-
+		state_manager.changeState(window, std::make_unique<MenuState>());
 }
