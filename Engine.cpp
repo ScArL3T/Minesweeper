@@ -7,7 +7,7 @@ void Engine::initGame()
 	splash.Create(255, 1.5f);
 
 	//Initiate window and set the framerate 
-	window.create({ 288, 288 }, "Minesweeper", sf::Style::Titlebar | sf::Style::Close);
+	window.create({ 600, 600 }, "Minesweeper", sf::Style::Titlebar | sf::Style::Close);
 	window.setFramerateLimit(FPS);
 	
 	//Load and set icon
@@ -20,7 +20,7 @@ void Engine::initGame()
 	m_cursorSprite.setTexture(m_cursorTexture);
 
 	//Initiate state manager
-	state_manager.changeState(window, std::make_unique<MenuState>());
+	state_manager.setNextState(std::make_unique<MenuState>());
 }
 
 void Engine::runGame()
@@ -50,6 +50,8 @@ void Engine::gameLoop()
 	sf::Clock clock;
 	while (window.isOpen())
 	{
+		state_manager.checkState(window);
+
 		//Events
 		handleEvents();
 

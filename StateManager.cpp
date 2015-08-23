@@ -2,24 +2,37 @@
 
 StateManager::StateManager()
 {
+	m_temp = nullptr;
 }
 
-void StateManager::changeState(sf::RenderWindow &window, std::unique_ptr<State> state)
+void StateManager::setNextState(std::unique_ptr<State> state)
 {
-	//If the vector isn't empty destroy the current states
-	//Clear the vector
-	if (!states.empty())
-	{
-		states.clear();
-	}
+	//Move the new state in a temporary unique_ptr
+	m_temp = std::move(state);
+}
 
-	//Move the new state inside the vector
-	states.push_back(std::move(state));
-
-	//Initiate the state
-	if (!states.empty())
+void StateManager::checkState(sf::RenderWindow &window)
+{
+	//Check if there is a new state waiting in queue
+	if (m_temp != nullptr)
 	{
-		states.front()->init(window);
+		//Clear the vector
+		if (!m_states.empty())
+		{
+			m_states.clear();
+		}
+
+		//Move the new state inside the vector
+		m_states.push_back(std::move(m_temp));
+
+		//Initiate the state
+		if (!m_states.empty())
+		{
+			m_states.front()->init(window);
+		}
+
+		//Reset the temporary unique_ptr
+		m_temp.reset();  //m_temp = nullptr;
 	}
 }
 
@@ -28,7 +41,7 @@ void StateManager::pushState(std::unique_ptr<State> state)
 	//Push state
 	if (!isInside(std::move(state)))
 	{
-		states.push_back(std::move(state));
+		m_states.push_back(std::move(state));
 		//states[states.size() - 1]->init(*window);
 	}
 }
@@ -36,20 +49,20 @@ void StateManager::pushState(std::unique_ptr<State> state)
 void StateManager::popState()
 {
 	//Pop state
-	if (states.size() > 1)
+	if (m_states.size() > 1)
 	{
-		states.pop_back();
+		m_states.pop_back();
 	}
 }
 
 void StateManager::update(sf::RenderWindow &window, float dt)
 {
 	//Update the states
-	if (!states.empty())
+	if (!m_states.empty())
 	{
-		for (unsigned int i = 0; i < states.size(); i++)
+		for (std::unique_ptr<State>& state : m_states)
 		{
-			states[i]->update(window, dt);
+			state->update(window, dt);
 		}
 	}
 }
@@ -57,11 +70,11 @@ void StateManager::update(sf::RenderWindow &window, float dt)
 void StateManager::draw(sf::RenderWindow &window)
 {
 	//Draw the states
-	if (!states.empty())
+	if (!m_states.empty())
 	{
-		for (unsigned int i = 0; i < states.size(); i++)
+		for (std::unique_ptr<State>& state : m_states)
 		{
-			states[i]->draw(window);
+			state->draw(window);
 		}
 	}
 }
@@ -69,24 +82,25 @@ void StateManager::draw(sf::RenderWindow &window)
 void StateManager::handleEvents(sf::RenderWindow &window, sf::Event &event)
 {
 	//Handle the states' events
-	if (!states.empty())
+	if (!m_states.empty())
 	{
-		for (unsigned int i = 0; i < states.size(); i++)
+		for (std::unique_ptr<State>& state : m_states)
 		{
-			states[i]->handleEvents(window, event);
+			state->handleEvents(window, event);
 		}
 	}
 }
 
-bool StateManager::isInside(std::unique_ptr<State> state)
+bool StateManager::isInside(std::unique_ptr<State> temp_state)
 {
 	//Check if the state is already inside the vector
-	for (unsigned int i = 0; i < states.size(); i++)
+	for (std::unique_ptr<State>& state : m_states)
 	{
-		if (states[i].get() == state.get())
+		if (state.get() == temp_state.get())
 		{
 			return true;
 		}
 	}
+	std::cout << "already inside" << std::endl;
 	return false;
 }

@@ -6,7 +6,7 @@
 
 namespace gui
 {
-	class Button : public Widget
+	class Button: public Widget
 	{
 	public:
 		Button();

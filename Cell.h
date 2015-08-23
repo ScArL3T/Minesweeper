@@ -4,7 +4,7 @@
 #include "StateManager.h"
 #include "GameObject.h"
 
-class Cell : public GameObject
+class Cell: public GameObject
 {
 public:
 	Cell();

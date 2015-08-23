@@ -7,7 +7,7 @@
 
 namespace gui
 {
-	class Widget : public sf::Drawable, public sf::Transformable
+	class Widget: public sf::Drawable, public sf::Transformable
 	{
 	public:
 		//typedef std::shared_ptr<Widget> Ptr;

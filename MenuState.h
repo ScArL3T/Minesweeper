@@ -3,7 +3,7 @@
 
 #include "StateManager.h"
 
-class MenuState : public State
+class MenuState: public State
 {
 public:
 	~MenuState();

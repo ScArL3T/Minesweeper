@@ -14,34 +14,53 @@ public:
 	Grid();
 	~Grid();
 
-	void setGridSize(unsigned int size);
+	void setGridSize(sf::Vector2u size);
 	void setTexture(sf::Texture &texture);
 
-	unsigned int getGridSize();
+	const sf::Vector2u getGridSize();
 
 	void update(sf::RenderWindow &window, float dt);
 	void draw(sf::RenderWindow &window);
 	void handleEvents(sf::RenderWindow &window, sf::Event &event);
+
+	//Check if the player won
+	bool playerWon();
+
+	//Check if the player lost
+	bool playerLost();
 private:
 	//Recalculate position
 	void autoPosition();
+
+	//Set bomb count
+	void setBombCount();
 
 	//Generate bombs
 	void generateBombs();
 
 	//Count neighbours
-	int countNeighbours(int x, int y);
+	unsigned int countNeighbours(int x, int y);
 
 	//Flood fill algorithm
 	void floodFill(int x, int y);
 
+	//Set the corresponding texture
 	void setCountTexture(int count, int x, int y);
+
+	//Number of unrevealed cells
+	unsigned int getNormalCells();
 
 	//Cells matrix
 	std::vector<std::vector<Cell>> grid;
 
 	//Matrix size
-	unsigned int m_size;
+	sf::Vector2u m_size;
+	
+	//Number of bombs
+	unsigned int m_bombCount;
+	
+	//Player lost & won
+	bool m_playerLost, m_playerWon;
 
 	//Textures
 	sf::Texture m_textureFlag;

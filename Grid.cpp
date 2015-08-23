@@ -17,62 +17,92 @@ Grid::Grid()
 	m_textureSix.loadFromFile("data/tileset_gray.png", sf::IntRect(640, 0, 64, 64));
 	m_textureSeven.loadFromFile("data/tileset_gray.png", sf::IntRect(704, 0, 64, 64));
 	m_textureEight.loadFromFile("data/tileset_gray.png", sf::IntRect(768, 0, 64, 64));
+
+	m_size.x = m_size.y = 0;
+	m_bombCount = 0;
+	m_playerLost = m_playerWon = false;
 }
 
 Grid::~Grid()
 {
 }
 
-void Grid::setGridSize(unsigned int size)
+void Grid::setGridSize(sf::Vector2u size)
 {
 	m_size = size;
-	grid.resize(m_size, std::vector<Cell>(m_size));
+	grid.resize(m_size.x, std::vector<Cell>(m_size.y));
+
+	setBombCount();
 	autoPosition();
 	generateBombs();
 }
 
-unsigned int Grid::getGridSize()
+const sf::Vector2u Grid::getGridSize()
 {
 	return m_size;
 }
 
 void Grid::update(sf::RenderWindow &window, float dt)
 {
-	for (unsigned int i = 0; i < m_size; i++)
+	if (!m_playerLost && !m_playerWon)
 	{
-		for (unsigned int j = 0; j < m_size; j++)
+		//Check if player won
+		if (getNormalCells() == m_bombCount)
 		{
-			if (grid[i][j].getState() != Cell::Revealed)
+			//PLAYER WON
+			m_playerWon = true;
+		}
+
+		for (unsigned int i = 0; i < m_size.x; i++)
+		{
+			for (unsigned int j = 0; j < m_size.y; j++)
 			{
-				if (grid[i][j].getState() == Cell::Flagged && !grid[i][j].flagged)
+				if (grid[i][j].getState() != Cell::Revealed)
 				{
-					grid[i][j].flagged = !grid[i][j].flagged;
-					grid[i][j].setTexture(m_textureFlag);
+					if (grid[i][j].getState() == Cell::Flagged && !grid[i][j].flagged)
+					{
+						grid[i][j].flagged = !grid[i][j].flagged;
+						grid[i][j].setTexture(m_textureFlag);
+					}
+					else if (grid[i][j].getState() == Cell::Normal && grid[i][j].flagged)
+					{
+						grid[i][j].flagged = !grid[i][j].flagged;
+						grid[i][j].setTexture(m_textureNormal);
+					}
 				}
-				else if (grid[i][j].getState() == Cell::Normal && grid[i][j].flagged)
+				else if (!grid[i][j].revealed)
 				{
-					grid[i][j].flagged = !grid[i][j].flagged;
-					grid[i][j].setTexture(m_textureNormal);
+					if (grid[i][j].isBomb())
+					{
+						//PLAYER LOST
+						m_playerLost = true;
+					}
+					else
+					{
+						if (countNeighbours(i, j) > 0)
+						{
+							grid[i][j].revealed = !grid[i][j].revealed;
+							setCountTexture(countNeighbours(i, j), i, j);
+						}
+						else
+						{
+							floodFill(i, j);
+						}
+					}
 				}
 			}
-			else if (!grid[i][j].revealed)
+		}
+	}	
+	else if (m_playerLost)
+	{
+		for (unsigned int i = 0; i < m_size.x; i++)
+		{
+			for (unsigned int j = 0; j < m_size.y; j++)
 			{
 				if (grid[i][j].isBomb())
 				{
 					grid[i][j].revealed = !grid[i][j].revealed;
 					grid[i][j].setTexture(m_textureBomb);
-				}
-				else
-				{
-					if (countNeighbours(i, j) > 0)
-					{
-						grid[i][j].revealed = !grid[i][j].revealed;
-						setCountTexture(countNeighbours(i, j), i, j);
-					}
-					else
-					{
-						floodFill(i, j);
-					}
 				}
 			}
 		}
@@ -82,9 +112,9 @@ void Grid::update(sf::RenderWindow &window, float dt)
 void Grid::draw(sf::RenderWindow &window)
 {
 	//Draw grid
-	for (unsigned int i = 0; i < m_size; i++)
+	for (unsigned int i = 0; i < m_size.x; i++)
 	{
-		for (unsigned int j = 0; j < m_size; j++)
+		for (unsigned int j = 0; j < m_size.y; j++)
 		{
 			window.draw(grid[i][j]);
 		}
@@ -94,9 +124,9 @@ void Grid::draw(sf::RenderWindow &window)
 void Grid::handleEvents(sf::RenderWindow &window, sf::Event &event)
 {
 	//Handle events
-	for (unsigned int i = 0; i < m_size; i++)
+	for (unsigned int i = 0; i < m_size.x; i++)
 	{
-		for (unsigned int j = 0; j < m_size; j++)
+		for (unsigned int j = 0; j < m_size.y; j++)
 		{
 			grid[i][j].handleEvents(window, event);
 		}
@@ -105,9 +135,9 @@ void Grid::handleEvents(sf::RenderWindow &window, sf::Event &event)
 
 void Grid::autoPosition()
 {
-	for (unsigned int i = 0; i < m_size; i++)
+	for (unsigned int i = 0; i < m_size.x; i++)
 	{
-		for (unsigned int j = 0; j < m_size; j++)
+		for (unsigned int j = 0; j < m_size.y; j++)
 		{
 			//Set the size of the cell
 			grid[i][j].setSize({ static_cast<float>(m_textureNormal.getSize().x / 2),
@@ -123,23 +153,41 @@ void Grid::autoPosition()
 	}
 }
 
+void Grid::setBombCount()
+{
+	//Set bomb count
+	if (m_size.x == 9 && m_size.y == 9)
+	{
+		m_bombCount = 10;
+	}
+	else if (m_size.x == 16 && m_size.y == 16)
+	{
+		m_bombCount = 40;
+	}
+	else if (m_size.x == 30 && m_size.y == 16)
+	{
+		m_bombCount = 99;
+	}
+}
+
 void Grid::generateBombs()
 {
 	//Random generators
 	std::random_device rd;
 	std::mt19937 mt(rd());
-	std::uniform_int_distribution<unsigned int> dist(0, m_size - 1);
+	std::uniform_int_distribution<unsigned int> distX(0, m_size.x - 1);
+	std::uniform_int_distribution<unsigned int> distY(0, m_size.y - 1);
 
-	for (unsigned int i = 0; i < m_size; i++)
+	for (unsigned int i = 0; i < m_bombCount; i++)
 	{
-		unsigned int x = dist(mt);
-		unsigned int y = dist(mt);
+		unsigned int x = distX(mt);
+		unsigned int y = distY(mt);
 
 		//If the current position is already a bomb generate new position
 		while (grid[x][y].isBomb())
 		{
-			x = dist(mt);
-			y = dist(mt);
+			x = distX(mt);
+			y = distY(mt);
 		}
 
 		//Set bomb
@@ -147,9 +195,9 @@ void Grid::generateBombs()
 	}
 }
 
-int Grid::countNeighbours(int x, int y)
+unsigned int Grid::countNeighbours(int x, int y)
 {
-	int count = 0;
+	unsigned int count = 0;
 
 	//Directions
 	const int dx[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
@@ -161,7 +209,7 @@ int Grid::countNeighbours(int x, int y)
 		int j = y + dy[d];
 
 		//Check if the new position is inside the grid
-		if (i >= 0 && i < m_size && j >= 0 && j < m_size)
+		if (i >= 0 && i < m_size.x && j >= 0 && j < m_size.y)
 		{
 			if (grid[i][j].isBomb())
 			{
@@ -177,7 +225,7 @@ void Grid::floodFill(int x, int y)
 	//Flood fill algorithm
 
 	//If the cell is outside the grid return
-	if (x < 0 || x >= m_size || y < 0 || y >= m_size)
+	if (x < 0 || x >= m_size.x || y < 0 || y >= m_size.y)
 		return;
 
 	//If the cell is a bomb return
@@ -254,4 +302,31 @@ void Grid::setCountTexture(int count, int x, int y)
 	default:
 		break;
 	}
+}
+
+unsigned int Grid::getNormalCells()
+{
+	unsigned int count = 0;
+
+	for (unsigned int i = 0; i < m_size.x; i++)
+	{
+		for (unsigned int j = 0; j < m_size.y; j++)
+		{
+			if (!grid[i][j].revealed)
+			{
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+bool Grid::playerWon()
+{
+	return m_playerWon;
+}
+
+bool Grid::playerLost()
+{
+	return m_playerLost;
 }

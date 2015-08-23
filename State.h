@@ -3,7 +3,7 @@
 
 #include "Globals.h"
 
-class State
+class State: sf::NonCopyable
 {
 public:
 	virtual ~State() {};

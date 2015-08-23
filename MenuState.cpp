@@ -71,7 +71,7 @@ void MenuState::update(sf::RenderWindow &window, float dt)
 	switch (playButton->getState())
 	{
 	case gui::Button::LeftMousePressed:
-		state_manager.changeState(window, std::make_unique<PlayState>());
+		state_manager.setNextState(std::make_unique<PlayState>());
 		break;
 	default:
 		break;
