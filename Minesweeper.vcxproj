@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="DifficultyState.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Globals.h" />
@@ -99,6 +100,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="DifficultyState.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Gui.cpp" />

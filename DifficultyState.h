@@ -1,12 +1,12 @@
-#ifndef MENUSTATE_H
-#define MENUSTATE_H
+#ifndef DIFFICULTYSTATE_H
+#define DIFFICULTYSTATE_H
 
 #include "StateManager.h"
 
-class MenuState: public State
+class DifficultyState: public State
 {
 public:
-	~MenuState();
+	~DifficultyState();
 	void init(sf::RenderWindow &window)							  override final;
 	void update(sf::RenderWindow &window, float dt)				  override final;
 	void draw(sf::RenderWindow &window)							  override final;
@@ -18,17 +18,12 @@ private:
 
 	//Float needed for setPosition(sf::Vector2f)
 	float WIDTH, HEIGHT;
-	bool  playState;
 
-	sf::Text		   m_title;  //Menu title
 	sf::RectangleShape m_backgr; //Menu background
-
-	sf::Texture m_panelTexture;  //Menu panel texture
-	sf::Sprite  m_panelSprite;   //Menu panel sprite
 
 	//Custom GUI
 	gui::Gui		  gui;
-	gui::Button::Ptr  playButton, quitButton; 
+	gui::Button::Ptr  easyButton, intermButton, hardButton;
 };
 
 #endif

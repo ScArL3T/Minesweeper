@@ -1,5 +1,5 @@
 #include "MenuState.h"
-#include "PlayState.h"
+#include "DifficultyState.h"
 
 MenuState::~MenuState()
 {
@@ -71,7 +71,7 @@ void MenuState::update(sf::RenderWindow &window, float dt)
 	switch (playButton->getState())
 	{
 	case gui::Button::LeftMousePressed:
-		state_manager.setNextState(std::make_unique<PlayState>());
+		state_manager.setNextState(std::make_unique<DifficultyState>());
 		break;
 	default:
 		break;
