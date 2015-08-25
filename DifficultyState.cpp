@@ -20,23 +20,23 @@ void DifficultyState::init(sf::RenderWindow &window)
 	m_backgr.setFillColor(sf::Color(100, 180, 255));
 
 	//Easy button
-	easyButton = gui::Button::create("Play");
+	easyButton = gui::Button::create("Easy");
 	easyButton->loadTextures(path + "1normal.png", path + "1hover.png", path + "1click.png");
 	easyButton->setPosition({ WIDTH / 2 - easyButton->getSize().x / 2, HEIGHT / 2 - easyButton->getSize().y * 2 });
 	easyButton->setOnHover(DifficultyState::onHover);
 	easyButton->setOnClick(DifficultyState::onClick);
 
 	//Intermediate button
-	intermButton = gui::Button::create("Play");
+	intermButton = gui::Button::create("Intermediate");
 	intermButton->loadTextures(path + "1normal.png", path + "1hover.png", path + "1click.png");
 	intermButton->setPosition({ WIDTH / 2 - intermButton->getSize().x / 2, HEIGHT / 2 - intermButton->getSize().y / 2 });
 	intermButton->setOnHover(DifficultyState::onHover);
 	intermButton->setOnClick(DifficultyState::onClick);
 
 	//Hard button
-	hardButton = gui::Button::create("Play");
+	hardButton = gui::Button::create("Hard");
 	hardButton->loadTextures(path + "1normal.png", path + "1hover.png", path + "1click.png");
-	hardButton->setPosition({ WIDTH / 2 - hardButton->getSize().x / 2, HEIGHT / 2 + hardButton->getSize().y * 2 / 4});
+	hardButton->setPosition({ WIDTH / 2 - hardButton->getSize().x / 2, HEIGHT / 2 + hardButton->getSize().y / 2 * 2});
 	hardButton->setOnHover(DifficultyState::onHover);
 	hardButton->setOnClick(DifficultyState::onClick);
 
