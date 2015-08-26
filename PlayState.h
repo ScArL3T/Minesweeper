@@ -12,6 +12,7 @@ public:
 	void update(sf::RenderWindow &window, float dt)				  override final;
 	void draw(sf::RenderWindow &window)							  override final;
 	void handleEvents(sf::RenderWindow &window, sf::Event &event) override final;
+
 private:
 	//Game grid
 	Grid grid;

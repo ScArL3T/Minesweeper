@@ -9,6 +9,15 @@
 #include <memory>
 #include <functional>
 
+enum class Difficulty
+{
+	Easy = 0,
+	Intermediate,
+	Hard
+};
+
+extern Difficulty m_difficulty;
+
 const unsigned int FPS = 60;
 
 extern sf::Font  font;

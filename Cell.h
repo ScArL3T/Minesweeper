@@ -10,30 +10,32 @@ public:
 	Cell();
 	~Cell();
 
+	enum class CellState
+	{
+		Normal = 0,
+		Revealed,
+		Flagged,
+	};
+
 	//Setters
 
 	void setSize(sf::Vector2f size);
 	void setTexture(sf::Texture &texture);
 	void setBomb(bool bomb);
-	void setState(sf::Uint32 state);
+	void setState(CellState state);
 
 	//Check if the cell is a bomb
 	bool isBomb();
 
 	//Get current state
-	sf::Uint32 getState();
+	CellState getState();
 	
 	void handleEvents(sf::RenderWindow &window, sf::Event &event);
 
 	//Public bools
 	bool flagged, revealed;
 
-	enum
-	{
-		Normal = 0,
-		Revealed,
-		Flagged,
-	};
+	
 private:
 	//Update
 	void update(sf::RenderWindow &window, float dt);
@@ -44,7 +46,7 @@ private:
 	sf::Texture     m_texture; //Cell texture
 	sf::Vector2f    m_size;    //Cell size
 	sf::VertexArray m_quad;    //Cell shape
-	sf::Uint32      m_state;   //Cell state
+	CellState       m_state;   //Cell state
 
 	//Bomb
 	bool m_bomb;

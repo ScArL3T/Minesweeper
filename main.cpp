@@ -9,6 +9,8 @@ StateManager     state_manager;
 sf::SoundBuffer  clickBuffer, hoverBuffer;
 sf::Sound		 clickSound, hoverSound;
 
+Difficulty m_difficulty;
+
 sf::Font font;
 
 //state manager: current state = last pushed state

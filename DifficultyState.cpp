@@ -1,5 +1,6 @@
 #include "DifficultyState.h"
 #include "MenuState.h"
+#include "PlayState.h"
 
 DifficultyState::~DifficultyState()
 {
@@ -21,21 +22,21 @@ void DifficultyState::init(sf::RenderWindow &window)
 
 	//Easy button
 	easyButton = gui::Button::create("Easy");
-	easyButton->loadTextures(path + "1normal.png", path + "1hover.png", path + "1click.png");
+	easyButton->loadTextures(path + "3normal.png", path + "3hover.png", path + "3click.png");
 	easyButton->setPosition({ WIDTH / 2 - easyButton->getSize().x / 2, HEIGHT / 2 - easyButton->getSize().y * 2 });
 	easyButton->setOnHover(DifficultyState::onHover);
 	easyButton->setOnClick(DifficultyState::onClick);
 
 	//Intermediate button
 	intermButton = gui::Button::create("Intermediate");
-	intermButton->loadTextures(path + "1normal.png", path + "1hover.png", path + "1click.png");
+	intermButton->loadTextures(path + "4normal.png", path + "4hover.png", path + "4click.png");
 	intermButton->setPosition({ WIDTH / 2 - intermButton->getSize().x / 2, HEIGHT / 2 - intermButton->getSize().y / 2 });
 	intermButton->setOnHover(DifficultyState::onHover);
 	intermButton->setOnClick(DifficultyState::onClick);
 
 	//Hard button
 	hardButton = gui::Button::create("Hard");
-	hardButton->loadTextures(path + "1normal.png", path + "1hover.png", path + "1click.png");
+	hardButton->loadTextures(path + "2normal.png", path + "2hover.png", path + "2click.png");
 	hardButton->setPosition({ WIDTH / 2 - hardButton->getSize().x / 2, HEIGHT / 2 + hardButton->getSize().y / 2 * 2});
 	hardButton->setOnHover(DifficultyState::onHover);
 	hardButton->setOnClick(DifficultyState::onClick);
@@ -48,6 +49,22 @@ void DifficultyState::init(sf::RenderWindow &window)
 void DifficultyState::update(sf::RenderWindow &window, float dt)
 {
 	gui.update(window);
+
+	//Quit button' state
+	if (easyButton->getState() == gui::Button::LeftMousePressed)
+	{
+		m_difficulty = Difficulty::Easy;
+		//window.setSize({ 512, 512 });
+	}
+	else if (intermButton->getState() == gui::Button::LeftMousePressed)
+	{
+		m_difficulty = Difficulty::Intermediate;
+		window.setSize({ 512, 512 });
+	}
+	else if (hardButton->getState() == gui::Button::LeftMousePressed)
+	{
+		m_difficulty = Difficulty::Hard;
+	}
 }
 
 void DifficultyState::draw(sf::RenderWindow &window)
@@ -71,4 +88,5 @@ void DifficultyState::onHover()
 void DifficultyState::onClick()
 {
 	clickSound.play();
+	state_manager.setNextState(std::make_unique<PlayState>());
 }

@@ -10,7 +10,7 @@ Cell::Cell()
 	m_quad.setPrimitiveType(sf::Quads);
 	m_quad.resize(4);
 
-	m_state = Normal;
+	m_state = CellState::Normal;
 
 	m_size.x = m_size.y = 0;
 	m_quad[0].position = sf::Vector2f(0, 0);
@@ -58,7 +58,7 @@ void Cell::setBomb(bool bomb)
 	m_bomb = bomb;
 }
 
-void Cell::setState(sf::Uint32 state)
+void Cell::setState(CellState state)
 {
 	m_state = state;
 }
@@ -68,7 +68,7 @@ bool Cell::isBomb()
 	return m_bomb;
 }
 
-sf::Uint32 Cell::getState()
+Cell::CellState Cell::getState()
 {
 	return m_state;
 }
@@ -80,7 +80,7 @@ void Cell::update(sf::RenderWindow &window, float dt)
 
 void Cell::handleEvents(sf::RenderWindow &window, sf::Event &event)
 {
-	if (m_state != Revealed)
+	if (m_state != CellState::Revealed)
 	{
 		//Get the rect of the quad
 		sf::FloatRect bounds(getPosition().x, getPosition().y, m_size.x, m_size.y);
@@ -105,7 +105,7 @@ void Cell::handleEvents(sf::RenderWindow &window, sf::Event &event)
 				if (hovered)
 				{
 					//Make the cell revealed
-					m_state = Revealed;
+					m_state = CellState::Revealed;
 				}
 			}
 
@@ -124,9 +124,9 @@ void Cell::handleEvents(sf::RenderWindow &window, sf::Event &event)
 				if (hovered)
 				{
 					//Make the cell flagged/unflagged
-					if (m_state != Flagged)
-						m_state = Flagged;
-					else m_state = Normal;
+					if (m_state != CellState::Flagged)
+						m_state = CellState::Flagged;
+					else m_state = CellState::Normal;
 				}
 			}
 		}

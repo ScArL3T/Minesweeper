@@ -57,14 +57,14 @@ void Grid::update(sf::RenderWindow &window, float dt)
 		{
 			for (unsigned int j = 0; j < m_size.y; j++)
 			{
-				if (grid[i][j].getState() != Cell::Revealed)
+				if (grid[i][j].getState() != Cell::CellState::Revealed)
 				{
-					if (grid[i][j].getState() == Cell::Flagged && !grid[i][j].flagged)
+					if (grid[i][j].getState() == Cell::CellState::Flagged && !grid[i][j].flagged)
 					{
 						grid[i][j].flagged = !grid[i][j].flagged;
 						grid[i][j].setTexture(m_textureFlag);
 					}
-					else if (grid[i][j].getState() == Cell::Normal && grid[i][j].flagged)
+					else if (grid[i][j].getState() == Cell::CellState::Normal && grid[i][j].flagged)
 					{
 						grid[i][j].flagged = !grid[i][j].flagged;
 						grid[i][j].setTexture(m_textureNormal);
@@ -233,7 +233,7 @@ void Grid::floodFill(int x, int y)
 		return;
 
 	//If the cell is flagged return
-	if (grid[x][y].getState() == Cell::Flagged)
+	if (grid[x][y].getState() == Cell::CellState::Flagged)
 		return;
 
 	//Count the neighbours
@@ -243,7 +243,7 @@ void Grid::floodFill(int x, int y)
 	//set the corresponding texture
 	if (count > 0)
 	{
-		grid[x][y].setState(Cell::Revealed);
+		grid[x][y].setState(Cell::CellState::Revealed);
 		grid[x][y].revealed = true;
 		setCountTexture(count, x, y);
 	}
@@ -252,7 +252,7 @@ void Grid::floodFill(int x, int y)
 		//Else reveal the cell and execute the algorithm
 		if (!grid[x][y].revealed)
 		{
-			grid[x][y].setState(Cell::Revealed);
+			grid[x][y].setState(Cell::CellState::Revealed);
 			grid[x][y].revealed = true;
 
 			grid[x][y].setTexture(m_textureClicked);

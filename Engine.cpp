@@ -7,7 +7,7 @@ void Engine::initGame()
 	splash.Create(255, 1.5f);
 
 	//Initiate window and set the framerate 
-	window.create({ 300, 300 }, "Minesweeper", sf::Style::Titlebar | sf::Style::Close);
+	window.create({ 288, 288 }, "Minesweeper", sf::Style::Titlebar | sf::Style::Close);
 	window.setFramerateLimit(FPS);
 	
 	//Load and set icon

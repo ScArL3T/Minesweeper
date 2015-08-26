@@ -6,6 +6,7 @@
 class State: sf::NonCopyable
 {
 public:
+	State() {};
 	virtual ~State() {};
 	virtual void init(sf::RenderWindow &window) = 0;
 	virtual void update(sf::RenderWindow &window, float dt) = 0;
