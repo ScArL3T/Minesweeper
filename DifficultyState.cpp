@@ -59,7 +59,7 @@ void DifficultyState::update(sf::RenderWindow &window, float dt)
 	else if (intermButton->getState() == gui::Button::LeftMousePressed)
 	{
 		m_difficulty = Difficulty::Intermediate;
-		window.setSize({ 512, 512 });
+		//window.setSize({ 512, 512 });
 	}
 	else if (hardButton->getState() == gui::Button::LeftMousePressed)
 	{

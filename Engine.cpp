@@ -36,6 +36,15 @@ void Engine::handleEvents()
 	{
 		if (event.type == sf::Event::Closed)
 			window.close();
+		if (event.type == sf::Event::Resized)
+		{
+			//Reset the view
+			window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
+
+			//Center the window
+			window.setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width / 2) - window.getSize().x / 2,
+				(sf::VideoMode::getDesktopMode().height / 2) - window.getSize().y / 2));
+		}
 
 		//Handle state manager's events
 		state_manager.handleEvents(window, event);

@@ -156,15 +156,15 @@ void Grid::autoPosition()
 void Grid::setBombCount()
 {
 	//Set bomb count
-	if (m_size.x == 9 && m_size.y == 9)
+	if (m_difficulty == Difficulty::Easy)
 	{
 		m_bombCount = 10;
 	}
-	else if (m_size.x == 16 && m_size.y == 16)
+	else if (m_difficulty == Difficulty::Intermediate)
 	{
 		m_bombCount = 40;
 	}
-	else if (m_size.x == 30 && m_size.y == 16)
+	else if (m_difficulty == Difficulty::Hard)
 	{
 		m_bombCount = 99;
 	}

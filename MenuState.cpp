@@ -11,6 +11,12 @@ void MenuState::init(sf::RenderWindow &window)
 {
 	gui.setGlobalFont(font);
 
+	//Default window size
+	if (window.getSize().x != 288 && window.getSize().y != 288)
+	{
+		window.setSize({ 288, 288 });
+	}
+
 	WIDTH = window.getSize().x;
 	HEIGHT = window.getSize().y;
 
