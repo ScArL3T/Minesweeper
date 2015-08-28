@@ -11,6 +11,7 @@ namespace gui
 	{
 	public:
 		//typedef std::shared_ptr<Widget> Ptr;
+		virtual ~Widget() {};
 
 		virtual void handleEvents(sf::RenderWindow &window, sf::Event &event) = 0;
 		virtual void setFont(sf::Font &font) = 0;
