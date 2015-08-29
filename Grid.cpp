@@ -44,65 +44,48 @@ const sf::Vector2u Grid::getGridSize()
 
 void Grid::update(sf::RenderWindow &window, float dt)
 {
-	if (!m_playerLost && !m_playerWon)
+	
+	//Check if player won
+	if (getNormalCells() == m_bombCount)
 	{
-		//Check if player won
-		if (getNormalCells() == m_bombCount)
-		{
-			//PLAYER WON
-			m_playerWon = true;
-		}
+		//PLAYER WON
+		m_playerWon = true;
+	}
 
-		for (unsigned int i = 0; i < m_size.x; i++)
-		{
-			for (unsigned int j = 0; j < m_size.y; j++)
+	for (unsigned int i = 0; i < m_size.x; i++)
+	{
+		for (unsigned int j = 0; j < m_size.y; j++)			{
+			if (grid[i][j].getState() != Cell::CellState::Revealed)
 			{
-				if (grid[i][j].getState() != Cell::CellState::Revealed)
+				if (grid[i][j].getState() == Cell::CellState::Flagged && !grid[i][j].flagged)
 				{
-					if (grid[i][j].getState() == Cell::CellState::Flagged && !grid[i][j].flagged)
-					{
-						grid[i][j].flagged = !grid[i][j].flagged;
-						grid[i][j].setTexture(m_textureFlag);
-					}
-					else if (grid[i][j].getState() == Cell::CellState::Normal && grid[i][j].flagged)
-					{
-						grid[i][j].flagged = !grid[i][j].flagged;
-						grid[i][j].setTexture(m_textureNormal);
-					}
+					grid[i][j].flagged = !grid[i][j].flagged;
+					grid[i][j].setTexture(m_textureFlag);
 				}
-				else if (!grid[i][j].revealed)
+				else if (grid[i][j].getState() == Cell::CellState::Normal && grid[i][j].flagged)
 				{
-					if (grid[i][j].isBomb())
-					{
-						//PLAYER LOST
-						m_playerLost = true;
-					}
-					else
-					{
-						if (countNeighbours(i, j) > 0)
-						{
-							grid[i][j].revealed = !grid[i][j].revealed;
-							setCountTexture(countNeighbours(i, j), i, j);
-						}
-						else
-						{
-							floodFill(i, j);
-						}
-					}
+					grid[i][j].flagged = !grid[i][j].flagged;
+					grid[i][j].setTexture(m_textureNormal);
 				}
 			}
-		}
-	}	
-	else if (m_playerLost)
-	{
-		for (unsigned int i = 0; i < m_size.x; i++)
-		{
-			for (unsigned int j = 0; j < m_size.y; j++)
+			else if (!grid[i][j].revealed)
 			{
 				if (grid[i][j].isBomb())
 				{
-					grid[i][j].revealed = !grid[i][j].revealed;
-					grid[i][j].setTexture(m_textureBomb);
+					//PLAYER LOST
+					m_playerLost = true;
+				}
+				else
+				{
+					if (countNeighbours(i, j) > 0)
+					{
+						grid[i][j].revealed = !grid[i][j].revealed;
+						setCountTexture(countNeighbours(i, j), i, j);
+					}
+					else
+					{
+						floodFill(i, j);
+					}
 				}
 			}
 		}
@@ -129,6 +112,21 @@ void Grid::handleEvents(sf::RenderWindow &window, sf::Event &event)
 		for (unsigned int j = 0; j < m_size.y; j++)
 		{
 			grid[i][j].handleEvents(window, event);
+		}
+	}
+}
+
+void Grid::showBombs()
+{
+	for (unsigned int i = 0; i < m_size.x; i++)
+	{
+		for (unsigned int j = 0; j < m_size.y; j++)
+		{
+			if (grid[i][j].isBomb())
+			{
+				grid[i][j].revealed = !grid[i][j].revealed;
+				grid[i][j].setTexture(m_textureBomb);
+			}
 		}
 	}
 }

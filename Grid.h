@@ -23,6 +23,9 @@ public:
 	void draw(sf::RenderWindow &window);
 	void handleEvents(sf::RenderWindow &window, sf::Event &event);
 
+	//Make all bombs visible
+	void showBombs();
+
 	//Check if the player won
 	bool playerWon();
 

@@ -14,15 +14,14 @@ public:
 	void handleEvents(sf::RenderWindow &window, sf::Event &event) override final;
 
 private:
-	//Win/lose
-	void win();
-	void lose();
-
 	//Text
 	sf::Text m_text;
 
 	//Game grid
 	Grid grid;
+
+	//MISC
+	bool show;
 };
 
 #endif

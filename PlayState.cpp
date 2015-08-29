@@ -8,6 +8,8 @@ PlayState::~PlayState()
 
 void PlayState::init(sf::RenderWindow &window)
 {
+	show = false;
+
 	m_text.setFont(font);
 	m_text.setCharacterSize(window.getSize().x / 8);
 
@@ -32,16 +34,35 @@ void PlayState::init(sf::RenderWindow &window)
 
 void PlayState::update(sf::RenderWindow &window, float dt)
 {
-	grid.update(window, dt);
 	if (grid.playerWon())
 	{
+		//Show bombs
+		if (!show)
+		{
+			show = !show;
+			grid.showBombs();
 
+			m_text.setColor(sf::Color::Yellow);
+			m_text.setString("YOU WIN!");
+			m_text.setPosition(window.getSize().x / 2 - m_text.getLocalBounds().width / 2, window.getSize().y / 6 * 2);
+		}
 	}
 	else if (grid.playerLost())
 	{
-		m_text.setColor(sf::Color::Red);
-		m_text.setString("GAME OVER!");
-		m_text.setPosition(window.getSize().x / 2 - m_text.getLocalBounds().width / 2, window.getSize().y / 6 * 2);
+		//Show bombs
+		if (!show)
+		{
+			show = !show;
+			grid.showBombs();
+
+			m_text.setColor(sf::Color::Red);
+			m_text.setString("GAME OVER!");
+			m_text.setPosition(window.getSize().x / 2 - m_text.getLocalBounds().width / 2, window.getSize().y / 6 * 2);
+		}
+	}
+	else
+	{
+		grid.update(window, dt);
 	}
 }
 
@@ -56,17 +77,11 @@ void PlayState::draw(sf::RenderWindow &window)
 
 void PlayState::handleEvents(sf::RenderWindow &window, sf::Event &event)
 {
-	grid.handleEvents(window, event);
+	if (!grid.playerLost() && !grid.playerWon())
+	{
+		grid.handleEvents(window, event);
+	}
+	
 	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 		state_manager.setNextState(std::make_unique<MenuState>());
-}
-
-void PlayState::win()
-{
-
-}
-
-void PlayState::lose()
-{
-
 }
